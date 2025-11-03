@@ -15,6 +15,14 @@ public class ItemSpawner : MonoBehaviour
     public float maxVertical;
     public float minVertical;
 
+    public PlayerHealth playerhealth;
+
+
+    public float laneToleranceX = 0.5f; 
+    public float hitRangeZ = 0.3f;      
+
+    // --- Define 3 lanes ---
+    private float[] lanesX = new float[3] { -1f, 0f, 1f };
     private void Start()
     {
         InvokeRepeating(nameof(BeginSpawn), 1, 0.3f);
@@ -39,7 +47,25 @@ public class ItemSpawner : MonoBehaviour
         foreach (var item in items)
         {
             ItemMover(item);
+
+            if (playerhealth != null)
+            {
+                float playerX = playerhealth.transform.position.x;
+                float playerZ = 0f; 
+
+                if (Mathf.Abs(item.itemPosition.x - playerX) < laneToleranceX &&
+                    item.itemPosition.z >= playerZ && item.itemPosition.z < playerZ + hitRangeZ)
+                {
+                    PlayerMovement pm = playerhealth.GetComponent<PlayerMovement>();
+                    if (pm != null && !pm.isJumping)
+                    {
+                        playerhealth.TakeDamage(5);
+                        item.itemPosition.z += 1f; 
+                    }
+                }
+            }
         }
+    
 
 
         transform.position = GetRandomLocation();

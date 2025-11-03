@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Lane")]
     public float speedoflane;
     public int currentlane;
     public float laneDistance;
 
 
-
+    [Header("Movement")]
     public float JumpHeight;
     public float JumpDuration;
     public bool isJumping;
@@ -19,12 +20,13 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator animator;
 
-    private Vector3 targetPosition;
+    public Vector3 targetPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         GroundY = transform.position.y;
+        targetPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -36,23 +38,23 @@ public class PlayerMovement : MonoBehaviour
     }
    public void HandleInput()
     {
-        // Move Left
+        
         if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && !isJumping)
         {
             currentlane = Mathf.Max(0, currentlane - 1);
             if (animator) animator.SetTrigger("MoveLeft");
-            SetTargetLanePosition();
+            SetTargetLane();
         }
 
-        // Move Right
+    
         if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && !isJumping)
         {
             currentlane = Mathf.Min(2, currentlane + 1);
             if (animator) animator.SetTrigger("MoveRight");
-            SetTargetLanePosition();
+            SetTargetLane();
         }
 
-        // Jump
+       
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && !isJumping)
         {
             isJumping = true;
@@ -61,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void SetTargetLanePosition()
+    public void SetTargetLane()
     {
         float targetX = (currentlane - 1) * laneDistance;
         targetPosition = new Vector3(targetX, transform.position.y, transform.position.z);
@@ -69,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
    public  void SmoothMoveToLane()
     {
+
+
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speedoflane);
     }
 
@@ -88,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, GroundY, transform.position.z);
                 isJumping = false;
+                if (animator) animator.SetTrigger("Run");
             }
         }
     }

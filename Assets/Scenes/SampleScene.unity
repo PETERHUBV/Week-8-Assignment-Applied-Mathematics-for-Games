@@ -434,13 +434,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToSpawn: {fileID: 3590674340049150759, guid: 6b1ae80c678bcfb46af657b8eb904644, type: 3}
-  speed: 0.2
+  speed: 2
   items: []
   parent: {fileID: 871879241}
-  maxHorizontal: 10
-  minHorizontal: -10
-  maxVertical: 5
-  minVertical: -5
+  maxHorizontal: 12
+  minHorizontal: -12
+  maxVertical: 2
+  minVertical: -1
+  playerhealth: {fileID: 1709785451}
+  laneToleranceX: 3
+  hitRangeZ: 4
 --- !u!4 &871879241
 Transform:
   m_ObjectHideFlags: 0
@@ -450,7 +453,7 @@ Transform:
   m_GameObject: {fileID: 871879239}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.17, z: -0.04830537}
+  m_LocalPosition: {x: -0.08, y: -4.32, z: -0.04830537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -702,15 +705,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8119ddfcf608b498b5d36073a96cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedoflane: 2
+  speedoflane: 10
   currentlane: 2
-  laneDistance: 2
+  laneDistance: 3
   JumpHeight: 2
-  JumpDuration: 1
+  JumpDuration: 0.2
   isJumping: 0
   JumpTimer: 0
   GroundY: 0
   animator: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &1709785450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -782,6 +786,11 @@ MonoBehaviour:
   currentHP: 100
   RegenRate: 1
   RegenTimer: 0
+  enemyPositions: []
+  HitRangeZ: 1
+  LaneToleranceX: 0.5
+  ForwardSpeed: 2
+  playerMovement: {fileID: 1709785449}
   HPText: {fileID: 1277408246}
 --- !u!1 &2082488822
 GameObject:
